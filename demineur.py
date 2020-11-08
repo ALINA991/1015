@@ -14,6 +14,11 @@
     - si joueur positionne drapeau --> click(Drapeau)
     - si joueru devoile case --> click(nbMine)
     - si jouer devoile mine --> click(Minerouge) + afficher reste des mines
+    
+RESTE A VOIR : 
+        - comment afficher grille de pixel 
+        - crrer afficherTuiles()
+        - est ce qu'on peu mettre a jour grilleDrapeau en le mettant comme parametre dans sa propre fonction
 
 '''
   
