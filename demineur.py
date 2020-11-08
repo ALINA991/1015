@@ -118,9 +118,9 @@ def nbMineVoisine(x,y, grilleMines):  #retourne le nb de mine autour de la tuile
     souris = getMouse()
     posX, posY, drapeau = attendreClick() 
     
-    if grilleDrapeau[posX, posY] = True        # si drapeau : ne rien faire 
+    if grilleDrapeau[posX, posY] = True :       # si drapeau : ne rien faire 
         break     #continue? 
-    elif grilleMine = True         # si mine : terminer jeu
+    elif grilleMine = True :        # si mine : terminer jeu
         afficherTuile(posX, posY, 10) # 10: mine sur fond rouge
         fin = terminerJeu() # A DEFINIR
     else:
