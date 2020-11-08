@@ -1,24 +1,28 @@
 '''creer : 
 - fonction qui cree tableau de tuiles (+++ grille des pixel les un a cote des autres)
-- fonction 'clic' qui fait l'action de 
-        - deposer un drapeau (utiliser attendre clic) 
-        - devoiler un case (boutton principal)
-              - affiche nb de mines voisine (si pas de mine)
-              - affiche mine rouge & toutes mine & termine le jeu (si mine) 
+- fonction 
+        - deposer un drapeau (utiliser attendre clic) : DONE 
+        - devoiler un case (boutton principal) :DONE 
+              - affiche nb de mines voisine (si pas de mine) :DONE
+              - affiche mine rouge & toutes mine & termine le jeu (si mine) :DONE 
               
-- fonction principale (hauteur, largeur) 
+- fonction principale (hauteur, largeur) : 
     - creer table de grandeur specifiée  
     - attendre le premier click 
     - positioner mines 
     - afficher nb de mines voisines apres 1er clic 
-    - si joueur positionne drapeau --> click(Drapeau)
-    - si joueru devoile case --> click(nbMine)
-    - si jouer devoile mine --> click(Minerouge) + afficher reste des mines
+    - si joueur positionne drapeau --> positionnerdrapeau()
+    - si joueru devoile case --> devoilerCase()
+    - si jouer devoile mine --> devoilerCase() # va voir que mine = True dans le tableau de Mine et terminer jeu
     
 RESTE A VOIR : 
         - comment afficher grille de pixel 
-        - crrer afficherTuiles()
-        - est ce qu'on peu mettre a jour grilleDrapeau en le mettant comme parametre dans sa propre fonction
+        - crrer afficherTuiles() & comprendre difference avec afficher image
+        - est ce qu'on peu mettre a jour grilleDrapeau en le mettant comme parametre dans sa propre fonction??
+                        => grilleDrapeau = positionnerDrapeau(hauteur, largeur, grilleDrapeau) possible pour mettre a jour? 
+        - est ce que fonction getMouse() retourne des position x, y qu'on peu actually utiliser en tant que index dans des tableau 
+                ex: pour mettre a jour le tableau grilleDrapeau lorsque joueur positionne drapeau 
+        - faire fonctions TESTs()
 
 '''
   
@@ -26,9 +30,7 @@ RESTE A VOIR :
 
 import tuiles
 
-#J'avais mis ces initialisation (haut, larg) dans le corps de la fonction afficherImage au debut 
-#mais plusieurs fonction utilise des parametre hauteur et largeur
-#so spécifier au debut dans script? ou j'ai mal compris qqchose? 
+
 hauteur = getScreenHeight()                 
 largeur = getScreenWidth()
 
@@ -68,7 +70,7 @@ def grilleDeBooleens(largeur, hauteur):
     grille = [[False] * largeur] * hauteur
     return grille 
 
-def placerMines(largeur, hauteur, nbMines, x, y): #(x,y) garantie False = position de prmier clic? 
+def placerMines(largeur, hauteur, nbMines, x, y): #(x,y) position du premier click
 
     grilleMine = grilleDeBooleens(largeur, hauteur)   #grille remplie de False
     for i in range(nbMines):
