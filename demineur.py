@@ -26,8 +26,6 @@ RESTE A VOIR :
 
 '''
   
-
-
 import tuiles
 
 
@@ -44,7 +42,10 @@ def afficherImage(x, y, colormap, image):  # pas sur si j'ai pas codé la foncti
     for i in range(larg):
         for j in range(haut):
             setPixel(j,i,colormap[aAfficher[i][j]])  #set chaque pixel pour afficher l'image
-            
+        
+def afficherTuile(x,y,tuile):
+        
+        
 def attendreClic():
     #doit retourner position (x,y) de la souris
     #et drapeau = True si joueur veux positionner un drapeau (voir clics a faire)
@@ -144,10 +145,6 @@ def terminerJeu():
 
                         
 
-                   
-                        
-  
-
         
         
 def demineur(hauteur, largeur, nbMines):   
@@ -187,7 +184,7 @@ def demineur(hauteur, largeur, nbMines):
       elif souris.button == 1 and souris.ctrl == False :
           fin = devoilerCase(posX, posY) #A DEFINIR 
                 
-
+def testDemineur():
         
         
       
