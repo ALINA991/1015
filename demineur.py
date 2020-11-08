@@ -106,7 +106,7 @@ def nbMineVoisine(x,y, grilleMines):  #retourne le nb de mine autour de la tuile
     
   def devoilerCase(grilleMine, grilleDrapeau):
      
-    fin = False
+    fin = False                 #utilisé dans la boucle while fin = False de la fonction principale
         
     souris = getMouse()
     posX, posY, drapeau = attendreClick() 
