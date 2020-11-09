@@ -162,15 +162,18 @@ def positionerDrapeau(grilleDrapeau, drapeau, posX, posY): #####
     
 
 def devoilerCase(grilleMine, grilleDrapeau, grilleCase, drapeau, posX, posY):
+    
+    hauteur = int(getScreenHeight()/16)
+    largeur = int(getScreenWidth()/16)
      
     fin = False  
-    print(posX, posY, len(grilleDrapeau))#utilisé dans la boucle while fin = False de la fonction principale
+    #utilisé dans la boucle while fin = False de la fonction principale
     if grilleDrapeau[posX][posY] == True :       # si drapeau : ne rien faire 
         return     #continue? 
         
     elif grilleMine[posX][posY] == True :        # si mine : terminer jeu
         afficherTuile(posX, posY, 10) # 10: mine sur fond rouge
-        fin = terminerJeu(victoire = False) # A DEFINIR
+        fin = terminerJeu(False, grilleMine, posX, posY) # A DEFINIR
         
     else:
         nbMinesVoisines = nbMineVoisine(posX, posY, grilleMine)     # si pas de mine et pas de drapeau 
@@ -178,26 +181,29 @@ def devoilerCase(grilleMine, grilleDrapeau, grilleCase, drapeau, posX, posY):
         grilleCase[posX][posY] = True 
         
         test = True                                     # test si toutes les tuiles non-mines sont devoilees
-        for i in range(grilleCase.shape[0]):
-            for j in range(grilleCase.shape[1]):                 #si oui alors toutes les case de grilleCase 
+        for i in range(hauteur):
+            for j in range(largeur):                 #si oui alors toutes les case de grilleCase 
                 if grilleCase[i][j] == grilleMine[i][j]:        #devrait etre l'inverse de grilleMine (pas un de ==)
                     test = False 
                     break
         if test == True:
-            fin = terminerJeu(victoire = True)
+            fin = terminerJeu(True, grilleMine, posX, posY)
                         
     return fin   
 
-def terminerJeu(victoire):
+def terminerJeu(victoire, grilleMine, posX, posY):
+    hauteur = int(getScreenHeight()/16)
+    largeur = int(getScreenWidth()/16)
    
     if victoire == True: 
         alert('Vous avez gagné!')
                    
     if victoire ==  False:
-        for i in range(grilleMine.shape[0]):
-            for j in range(grilleMine.shape[1]):     #afficher toutes les mines restantes
+        afficherTuile(posX,posY, 10) 
+        for i in range(hauteur):
+            for j in range(largeur):     #afficher toutes les mines restantes
                 if grilleMine[i][j] == True :
-                    afficherTuile(i,j, 10) 
+                    afficherTuile(i,j, 9) 
         alert('Vous avez perdu!')    
     fin = True  
         
@@ -205,8 +211,9 @@ def terminerJeu(victoire):
 
 
 
-def demineur(hauteur, largeur, nbMines):   
-  
+def demineur(hauteur, largeur, nbMines): 
+    
+    
     colormap = tuiles.colormap
     images= tuiles.images
    
@@ -239,7 +246,7 @@ def demineur(hauteur, largeur, nbMines):
             devoilerCase(grilleMine, grilleDrapeau, grilleCase, drapeau, posTuileX, posTuileY)
             premierClick = False
         
-  
+    fin = False
     while fin == False : 
         evenement = attendreClic() 
         posX = evenement.posX             #VOIR SIL FAUT PAS CONVERTIR POSITIONS
