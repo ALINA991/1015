@@ -40,12 +40,6 @@ A MODIFIER :
         
 
 '''
-  
-import tuiles
-colormap = tuiles.colormap
-images = tuiles.images
-
-
 import tuiles
 hauteur = 16
 largeur = 16
@@ -160,13 +154,13 @@ def nbMineVoisine(x,y, grilleMines):  #retourne le nb de mine autour de la tuile
 
 def positionerDrapeau(hauteur, largeur, grilleDrapeau, drapeau, posX, posY): #####
    
-    while True :
-        if drapeau == True and grilleDrapeau[posX, posX] == False :   #sil ny a pas encore de drapeau sur la tuile 
-            afficherTuile(posX, posY, 13) # 13= numero de tuile avec drapeau  # FONCTION A DEFINIR !!!
-            grilleDrapeau[posX, posY] = True 
-        elif drapeau == True and grilleDrapeau[posX, posX] == True :    #sil y a deja un drapeau sur la tuile
-            afficherTuile(posX, posY, 12) #12 = tuile non devoilee 
-            grilleDrapeau[posX, posY] = False     #enlever le drapeau 
+   
+    if drapeau == True and grilleDrapeau[posX, posX] == False :   #sil ny a pas encore de drapeau sur la tuile 
+        afficherTuile(posX, posY, 13) # 13= numero de tuile avec drapeau  # FONCTION A DEFINIR !!!
+        grilleDrapeau[posX, posY] = True 
+    elif drapeau == True and grilleDrapeau[posX, posX] == True :    #sil y a deja un drapeau sur la tuile
+        afficherTuile(posX, posY, 12) #12 = tuile non devoilee 
+        grilleDrapeau[posX, posY] = False     #enlever le drapeau 
               
     return grilleDrapeau 
 
