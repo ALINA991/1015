@@ -35,6 +35,9 @@ A MODIFIER :
                         il faut check si pour toutes tuiles != mine --> tuiles 
         - cheack pour position x,y de getMouse --> convertir en int en fonction de taille de grille de tuiles
         
+        JE PENSE QUIL FAUT UNE FONCTION GRILLE DE TUILES ABSOLUMENT 
+        PUIS ON POURRAS AVOIR DES (x,Y) qu'on va arrondir en fonction de la taille des tuiles (qui est en fonction de la taille de la grille de tuiles)
+        
 
 '''
   
