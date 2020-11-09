@@ -23,6 +23,17 @@ RESTE A VOIR :
         - est ce que fonction getMouse() retourne des position x, y qu'on peu actually utiliser en tant que index dans des tableau 
                 ex: pour mettre a jour le tableau grilleDrapeau lorsque joueur positionne drapeau 
         - faire fonctions TESTs()
+        
+        
+A MODIFIER : 
+        - attendreclick() doit returner un enregistrement :DONE
+        - nbMinevoisne doit prendre en compte au niveau des bors : moins de 8 tuiles voisines : DONE
+        - si toutes tuiles devoilee il faut treminer le jeu : DONE 
+        
+        _ FONCTION AFFICHER GRILLE DE TUILES? --> pour terminer le jeu lorsque toute mines sont devoilee 
+                        il faut check si pour toutes tuiles != mine --> tuiles 
+        - cheack pour position x,y de getMouse --> convertir en int en fonction de taille de grille de tuiles
+        
 
 '''
   
@@ -60,9 +71,12 @@ def attendreClic():
             drapeau = True 
         else :
             drapeau = False
+        
+        evenement = struct(posX = posX, posY = posY, drapeau = drapeau)
+        
         sleep(0.01)    #pour pas surcharger le processeur
         
-    return posX, posY, drapeau
+    return evenement
 
 def grilleDeBooleens(largeur, hauteur):
     #retourne une grille remplie de False 
@@ -85,22 +99,53 @@ def placerMines(largeur, hauteur, nbMines, x, y): #(x,y) position du premier cli
     return grilleMine
 
 def nbMineVoisine(x,y, grilleMines):  #retourne le nb de mine autour de la tuile a la postion (x,y)
+        
+    hauteur = getScreenHeight()
+    largeur = getScreenLenght()
+        
     posX = x 
     posY = y 
     
     nbMines = 0
-    
-    for i in range(posX - 1, posX +2):
-        for j in range(posY - 1, posX +2):
-            if grilleMine[i][j] == True:
-                nbMines += 1
-                
+
+    if posX == 0  :             #determiner si x est sur le bord *superieur 
+        debutX = posX
+        finX = posX +1    
+    elif posX != 0 and posX != hauteur-1  #*au milieur de la grille
+        debutX = posX-1
+        finX = posX +1
+    elif posX == hauteur - 1:  #sur le bord inferieur
+        debutX = posX -1
+        finX = posX
+     
+
+    if posY == 0                        #determiner si y est sur le bord gauche
+        debutY = posY 
+        finY = posY +1 
+    elif posY != 0 and posY != largeur - 1 :    #*au milieur de la grille
+         debutY = posY-1
+         finY = posY +1
+    elif posY == largeur - 1:            #sur le bord droit
+         debutY = posY-1
+         finY = posY 
+           
+        
+        for i in range(debutX, finX):   #calculer nb de mines voisines 
+            for j in range(debutY, finY):
+                if grilleMine[i][j] == True:
+                    nbMines += 1
+                             
     return nbMines
+
+
   
   def positionerDrapeau(hauteur, largeur, grilleDrapeau): 
    
       while True : 
-          posX, posY, drapeau = attendreClick() # est ce que le while True dans attendreClick() continue a tourner si je ne met pas de while true ici? 
+          evenement = attendreClick() # est ce que le while True dans attendreClick() continue a tourner si je ne met pas de while true ici? 
+          posX = evenement.posX
+          posY = evenement.posY
+          drapeau = evenement.drapeau
       
           if drapeau = True and grilleDrapeau[posX, posX] == False :   #sil ny a pas encore de drapeau sur la tuile 
               afficherTuile(posX, posY, 13) # 13= numero de tuile avec drapeau  # FONCTION A DEFINIR !!!
@@ -112,7 +157,7 @@ def nbMineVoisine(x,y, grilleMines):  #retourne le nb de mine autour de la tuile
        return grilleDrapeau 
         
     
-  def devoilerCase(grilleMine, grilleDrapeau):
+  def devoilerCase(grilleMine, grilleDrapeau, grilleCase):
      
     fin = False                 #utilisé dans la boucle while fin = False de la fonction principale
         
@@ -121,24 +166,41 @@ def nbMineVoisine(x,y, grilleMines):  #retourne le nb de mine autour de la tuile
     
     if grilleDrapeau[posX, posY] = True :       # si drapeau : ne rien faire 
         break     #continue? 
+        
     elif grilleMine = True :        # si mine : terminer jeu
         afficherTuile(posX, posY, 10) # 10: mine sur fond rouge
-        fin = terminerJeu() # A DEFINIR
-    else:
-      nbMinesVoisines = nbMineVoisine(posX, posY, grilleMine)     # si pas de mine et pas de drapeau 
-      afficherTuile(posX, posY, nbMinesVoisines)                  # afficher nombre de mines voisines 
+        fin = terminerJeu(victoire = False) # A DEFINIR
         
+    else:
+        nbMinesVoisines = nbMineVoisine(posX, posY, grilleMine)     # si pas de mine et pas de drapeau 
+        afficherTuile(posX, posY, nbMinesVoisines)  
+        
+        grilleCase[posX,posY] = True 
+        
+        test = True                                     # test si toutes les tuiles non-mines sont devoilees
+               for i in range(grilleCase.shape[0]):
+                    for j in range(grilleCase.shape[1]):                 #si oui alors toutes les case de grilleCase 
+                        if grilleCase[i][j] == grilleMine[i][j]:        #devrait etre l'inverse de grilleMine (pas un de ==)
+                                test = False 
+                                break
+               if test == True:
+                    fin = terminerJeu(victoire = True)
+                        
     return fin                          # si on a pas cliqué sur une mine, fin = False et on continue 
                                         # voir le while fin = False de la fonction demineur (fonction principale)
     
     
-def terminerJeu():
-        
-  for i in range(grilleMine.shape[0])
-        for j in range(grilleMine.shape[1]):     #afficher toutes les mines restantes
-                if grilleMine[i][j] == True 
-                        afficherTuile(i,j, 10) 
-  alert('Vous avez perdu!')    
+def terminerJeu(victoire):
+   
+  if victoire == True: 
+        alert('Vous avez gagné!')
+                   
+  if victoire ==  False:
+        for i in range(grilleMine.shape[0])
+                for j in range(grilleMine.shape[1]):     #afficher toutes les mines restantes
+                        if grilleMine[i][j] == True 
+                                afficherTuile(i,j, 10) 
+        alert('Vous avez perdu!')    
   fin = True  
         
   return fin #fin devient True -> on sort de la boucle while fin = False de la fonction principale : fin du jeu 
@@ -153,6 +215,7 @@ def demineur(hauteur, largeur, nbMines):
   # AFFICHER TUILES NON DEVOILEE PARTOUT
   
   grilleDrapeau = grilleDeBooleens(hauteur, largeur) # a mettre a jour avec la fonction positionnerdrapeau()
+  grilleCase = grilleDeBooleens(hauteur, largeur) 
         
    #contient [x, y, button, shift, ctrl, alt]
   
@@ -165,7 +228,10 @@ def demineur(hauteur, largeur, nbMines):
   premierClick = True
         
   while premierClick:
-        posX, posY, drapeau = attendreClick()
+          evenement = attendreClick() # est ce que le while True dans attendreClick() continue a tourner si je ne met pas de while true ici? 
+          posX = evenement.posX #VOIR SIL FAUT PAS CONVERTIR POSITIONS
+          posY = evenement.posY
+          drapeau = evenement.drapeau
         
         if drapeau = True: 
             grilleDrapeau = positionnerDrapeau(hauteur, largeur, grilleDrapeau)
@@ -177,12 +243,16 @@ def demineur(hauteur, largeur, nbMines):
         
   
   while fin == False : 
-      posX, posY, drapeau = attendreClick()
+      evenement = attendreClick() 
+      posX = evenement.posX             #VOIR SIL FAUT PAS CONVERTIR POSITIONS
+      posY = evenement.posY
+      drapeau = evenement.drapeau
       
       if drapeau = True: 
           grilleDrapeau = positionnerDrapeau(hauteur, largeur, grilleDrapeau) # est ce que c'est possible de mettre a jours grille drapeau comme ca? 
       elif souris.button == 1 and souris.ctrl == False :
-          fin = devoilerCase(posX, posY) #A DEFINIR 
+          fin = devoilerCase(posX, posY) 
+                
                 
 def testDemineur():
         
