@@ -41,12 +41,11 @@ A MODIFIER :
 
 '''
 import tuiles
-hauteur = 16
-largeur = 16
+
 colormap = tuiles.colormap
 images= tuiles.images
   
-setScreenMode(hauteur*16, largeur*16)  #grille de pixel 
+
 
 
 def afficherImage(x, y,colormap, image):
