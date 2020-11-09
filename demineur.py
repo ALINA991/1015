@@ -89,7 +89,7 @@ def attendreClic():
         posX = souris.x
         posY = souris.y
         
-        if souris.boutton == 2 or (souris.boutton == 1 and souris.ctrl == True):
+        if souris.button == 2 or (souris.button == 1 and souris.ctrl == True):
             drapeau = True 
         else :
             drapeau = False
@@ -243,7 +243,7 @@ def demineur(hauteur, largeur, nbMines):
     premierClick = True
         
     while premierClick:
-        evenement = attendreClick() # est ce que le while True dans attendreClick() continue a tourner si je ne met pas de while true ici? 
+        evenement = attendreClic() # est ce que le while True dans attendreClick() continue a tourner si je ne met pas de while true ici? 
         posX = evenement.posX #VOIR SIL FAUT PAS CONVERTIR POSITIONS
         posY = evenement.posY
         drapeau = evenement.drapeau
@@ -251,14 +251,14 @@ def demineur(hauteur, largeur, nbMines):
         if drapeau == True: 
             grilleDrapeau = positionnerDrapeau(hauteur, largeur, grilleDrapeau)
         
-        elif souris. souris.button == 1 and souris.ctrl == False :   #premier click
+        elif souris.button == 1 and souris.ctrl == False :   #premier click
             grilleMine = placerMines(hauteur, largeur, nbMines, posX, posY) #on place les mines aleatoirement sauf a lendroit qui vient detre cliqué 
             devoilerCase(grilleMine, grilleDrapeau) 
             premierClick = False
         
   
     while fin == False : 
-        evenement = attendreClick() 
+        evenement = attendreClic() 
         posX = evenement.posX             #VOIR SIL FAUT PAS CONVERTIR POSITIONS
         posY = evenement.posY
         drapeau = evenement.drapeau
