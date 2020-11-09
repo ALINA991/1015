@@ -112,11 +112,9 @@ def placerMines(largeur, hauteur, nbMines, x, y): #(x,y) position du premier cli
         
     return grilleMine
 
-def nbMineVoisine(x,y, grilleMines):  #retourne le nb de mine autour de la tuile a la postion (x,y)
+def nbMineVoisine(x,y, grilleMine):  #retourne le nb de mine autour de la tuile a la postion (x,y)
         
-    hauteur = getScreenHeight()
-    largeur = getScreenLenght()
-        
+
     posX = x 
     posY = y 
     
@@ -151,13 +149,13 @@ def nbMineVoisine(x,y, grilleMines):  #retourne le nb de mine autour de la tuile
                              
     return nbMines
 
-def positionerDrapeau(hauteur, largeur, grilleDrapeau, drapeau, posX, posY): #####
+def positionerDrapeau(grilleDrapeau, drapeau, posX, posY): #####
    
     
-    if drapeau == True and grilleDrapeau[posX, posX] == False :   #sil ny a pas encore de drapeau sur la tuile 
+    if drapeau == True and grilleDrapeau[posX][posY] == False :   #sil ny a pas encore de drapeau sur la tuile 
         afficherTuile(posX, posY, 13) # 13= numero de tuile avec drapeau  # FONCTION A DEFINIR !!!
         return True
-    elif drapeau == True and grilleDrapeau[posX, posX] == True :    #sil y a deja un drapeau sur la tuile
+    elif drapeau == True and grilleDrapeau[posX][posY] == True :    #sil y a deja un drapeau sur la tuile
         afficherTuile(posX, posY, 12) #12 = tuile non devoilee 
         return False     #enlever le drapeau 
              
@@ -165,19 +163,19 @@ def positionerDrapeau(hauteur, largeur, grilleDrapeau, drapeau, posX, posY): ###
 
 def devoilerCase(grilleMine, grilleDrapeau, grilleCase, drapeau, posX, posY):
      
-    fin = False                 #utilisé dans la boucle while fin = False de la fonction principale
-    print(grilleDrapeau)
-    if grilleDrapeau[posX,posY] == True :       # si drapeau : ne rien faire 
+    fin = False  
+    print(posX, posY, len(grilleDrapeau))#utilisé dans la boucle while fin = False de la fonction principale
+    if grilleDrapeau[posX][posY] == True :       # si drapeau : ne rien faire 
         return     #continue? 
         
-    elif grilleMine[posX,posY] == True :        # si mine : terminer jeu
+    elif grilleMine[posX][posY] == True :        # si mine : terminer jeu
         afficherTuile(posX, posY, 10) # 10: mine sur fond rouge
         fin = terminerJeu(victoire = False) # A DEFINIR
         
     else:
         nbMinesVoisines = nbMineVoisine(posX, posY, grilleMine)     # si pas de mine et pas de drapeau 
         afficherTuile(posX, posY, nbMinesVoisines)  
-        grilleCase[posX,posY] = True 
+        grilleCase[posX][posY] = True 
         
         test = True                                     # test si toutes les tuiles non-mines sont devoilees
         for i in range(grilleCase.shape[0]):
@@ -222,19 +220,23 @@ def demineur(hauteur, largeur, nbMines):
     premierClick = True
         
     while premierClick:
+        
         evenement = attendreClic() # est ce que le while True dans attendreClick() continue a tourner si je ne met pas de while true ici? 
         posX = evenement.posX #VOIR SIL FAUT PAS CONVERTIR POSITIONS
         posY = evenement.posY
+        posTuileX = math.floor(posX/16)
+        posTuileY = math.floor(posY/16)
         drapeau = evenement.drapeau
         
         souris = getMouse()
         
         if drapeau == True: 
-            grilleDrapeau[posX,posY] = positionnerDrapeau(hauteur, largeur, grilleDrapeau, drapeau, posX, posY)
+            print(grilleDrapeau)
+            grilleDrapeau[posTuileX][posTuileY] = positionnerDrapeau(grilleDrapeau, drapeau, posTuileX, posTuileY)
             print(grilleDrapeau)
         elif souris.button == 1 and souris.ctrl == False :   #premier click
-            grilleMine = placerMines(hauteur, largeur, nbMines, posX, posY) #on place les mines aleatoirement sauf a lendroit qui vient detre cliqué 
-            devoilerCase(posX, posY, grilleCase, drapeau, posX, posY) 
+            grilleMine = placerMines(hauteur, largeur, nbMines, posTuileX, posTuileY) #on place les mines aleatoirement sauf a lendroit qui vient detre cliqué 
+            devoilerCase(grilleMine, grilleDrapeau, grilleCase, drapeau, posTuileX, posTuileY)
             premierClick = False
         
   
@@ -242,15 +244,18 @@ def demineur(hauteur, largeur, nbMines):
         evenement = attendreClic() 
         posX = evenement.posX             #VOIR SIL FAUT PAS CONVERTIR POSITIONS
         posY = evenement.posY
+        posTuileX = math.floor(posX/16)
+        posTuileY = math.floor(posY/16)
         drapeau = evenement.drapeau
       
         souris = getMouse()
         
         if drapeau == True: 
-            grilleDrapeau[posX,posY] = positionnerDrapeau(hauteur, largeur, grilleDrapeau, drapeau, posX, posY) # est ce que c'est possible de mettre a jours grille drapeau comme ca? 
+            print(grilleDrapeau)
+            grilleDrapeau[posTuileX][posTuileY] = positionnerDrapeau(grilleDrapeau, drapeau, posTuileX, posTuileY) # est ce que c'est possible de mettre a jours grille drapeau comme ca? 
+            print(grilleDrapeau)
         elif souris.button == 1 and souris.ctrl == False :
-            fin = devoilerCase(posX, posY, drapeau, posX, posY) 
-                
+            fin = devoilerCase(grilleMine, grilleDrapeau, grilleCase, drapeau, posTuileX, posTuileY)
                 
 def testDemineur():
     setScreenMode(16*2,16*1)
