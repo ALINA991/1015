@@ -236,21 +236,15 @@ def demineur(hauteur, largeur, nbMines):
    
   setScreenMode(hauteur*16, largeur*16)  #grille de pixel 
         
-
+  grilleDeTuiles(hauteur,largeur)
         
 
-  # AFFICHER TUILES NON DEVOILEE PARTOUT
+
   
   grilleDrapeau = grilleDeBooleens(hauteur, largeur) # a mettre a jour avec la fonction positionnerdrapeau()
   grilleCase = grilleDeBooleens(hauteur, largeur) 
         
-   #contient [x, y, button, shift, ctrl, alt]
-  
-  # on pourrais mettre parametre = Difficulté (1,2,3) (à la place de nbMine)
-  # si difficulté = 1 ==> nbMines = x , si difficulté = 2, nbMine=y, ... (x,y, z calculé en fonction de la hauteur/largeur du jeu)
 
-  # PREMIER CLICK --> get position du premier click
-  # x, y = position premier click ( a utiliser dans placer mines) 
         
   premierClick = True
         
