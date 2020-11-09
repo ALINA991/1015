@@ -30,7 +30,8 @@ A MODIFIER :
         - nbMinevoisne doit prendre en compte au niveau des bors : moins de 8 tuiles voisines : DONE
         - si toutes tuiles devoilee il faut treminer le jeu : DONE 
         
-        _ FONCTION AFFICHER GRILLE DE TUILES? --> pour terminer le jeu lorsque toute mines sont devoilee 
+        _ FONCTION AFFICHER GRILLE DE TUILES? --> pour terminer le jeu lorsque toute mines sont devoilee DONE MAIS SANS FONCTION 
+                        VOIR SI MIEUX AVEC FONCTION 
                         il faut check si pour toutes tuiles != mine --> tuiles 
         - cheack pour position x,y de getMouse --> convertir en int en fonction de taille de grille de tuiles
         
