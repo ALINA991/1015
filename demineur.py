@@ -51,8 +51,8 @@ def afficherImage(x, y, colormap, image):  # pas sur si j'ai pas codé la foncti
 
     aAfficher = tuiles.images[image]     #sort la grille de valeur de couleur (dans colormap) 
                                          #correspondant a l'image qu'on veux
-    for i in range(larg):
-        for j in range(haut):
+    for i in range(largeur):
+        for j in range(hauteur):
             setPixel(j,i,colormap[aAfficher[i][j]])  #set chaque pixel pour afficher l'image
         
 def afficherTuile(x,y,tuile):
