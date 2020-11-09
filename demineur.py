@@ -112,7 +112,11 @@ def placerMines(largeur, hauteur, nbMines, x, y): #(x,y) position du premier cli
     return grilleMine
 
 def nbMineVoisine(x,y, grilleMine):  #retourne le nb de mine autour de la tuile a la postion (x,y)
+      
         
+    hauteur = getScreenHeight()/16
+    largeur = getScreenWidth()/16
+    
 
     posX = x 
     posY = y 
