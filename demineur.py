@@ -42,23 +42,36 @@ A MODIFIER :
 '''
   
 import tuiles
+colormap = tuiles.colormap
+images = tuiles.images
 
 
-hauteur = getScreenHeight()                 
-largeur = getScreenWidth()
+
 
 def afficherImage(x, y, colormap, image):  # pas sur si j'ai pas codé la fonction afficherTuile??
                                            # a quoi sert x, y, et meme colormap si on peu specifier 
                                              #tuiles.colormap dans le corps de la fonction  
-      
-
+    
+    nbPixelParTuile = 16 
     aAfficher = tuiles.images[image]     #sort la grille de valeur de couleur (dans colormap) 
                                          #correspondant a l'image qu'on veux
-    for i in range(largeur):
-        for j in range(hauteur):
+    for i in range(x, nbPixelParTuile):
+        for j in range(y, nbPixelParTuile):                #ATTENTION !!! definir largeur = largeurgrille/ nb de tuiles 
+                                                        #et heuteur - hauteurgrille / nb de tuiles
             setPixel(j,i,colormap[aAfficher[i][j]])  #set chaque pixel pour afficher l'image
-        
+   
+
+
 def afficherTuile(x,y,tuile):
+        afficherImage(x*16,y*16, colormap, tuile)
+ 
+        
+ 
+def grilleDeTuiles(hauteur, largeur): 
+    for i in range(hauteur):
+        for j in range(largeur):
+            afficherTuile(i,j, 12) #tuile non dévoilée
+        
         
         
 def attendreClic():
@@ -178,7 +191,6 @@ def nbMineVoisine(x,y, grilleMines):  #retourne le nb de mine autour de la tuile
     else:
         nbMinesVoisines = nbMineVoisine(posX, posY, grilleMine)     # si pas de mine et pas de drapeau 
         afficherTuile(posX, posY, nbMinesVoisines)  
-        
         grilleCase[posX,posY] = True 
         
         test = True                                     # test si toutes les tuiles non-mines sont devoilees
@@ -214,8 +226,17 @@ def terminerJeu(victoire):
         
         
 def demineur(hauteur, largeur, nbMines):   
+    
         
-  # FONCTION CREER GRILLE DE PIXELS 
+        
+  colormap = tuiles.colormap
+  images= tuiles.images
+   
+  setScreenMode(hauteur*16, largeur*16)  #grille de pixel 
+        
+
+        
+
   # AFFICHER TUILES NON DEVOILEE PARTOUT
   
   grilleDrapeau = grilleDeBooleens(hauteur, largeur) # a mettre a jour avec la fonction positionnerdrapeau()
