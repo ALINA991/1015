@@ -52,11 +52,15 @@ def afficherImage(x, y,colormap, image):
     
 
     nbPixelParTuile = 16
-    aAfficher = tuiles.images[image]     
-    for i in range(x, x+nbPixelParTuile):
-        for j in range(y, x+nbPixelParTuile):
-            setPixel(x,y,colormap[aAfficher[x][y]])  
-   
+    aAfficher = tuiles.images[image] 
+    s =0
+    t = 0
+    for i in range(x, x+nbPixelParTuile-1):
+        s=0 
+        for j in range(y, x+nbPixelParTuile-1):
+            setPixel(i,j,colormap[aAfficher[s][t]]) 
+            s+=1    
+        t+=1
 
 
 def afficherTuile(x,y,tuile):
