@@ -3,11 +3,11 @@ Auteurs : Ziad Khafagy - 20161904, Alina Weinberger 20066963
 Date : 9.11.2020
 
 Description : 
-        Ce fichier permet de creer le jeu interactif demineur. Les regles du jeu
-        peuvent etre trouver sur le web.
+        Ce fichier permet de creer le jeu interactif demineur. Les regles du 
+        jeu peuvent etre trouver sur le web.
         
         Fonction principale demineur():
-                Cette fonction permet d'attendre le premier click du joueur sur 
+               Cette fonction permet d'attendre le premier click du joueur sur 
                 une grille de tuiles avant de placer des mines aléatoirement.
                 Ensuite le joueur devoiles les cases une à une, lorsqu'il
                 n'y a plus de tuiles à devoiler ou lorsqu'une mine est 
@@ -39,14 +39,14 @@ def afficherTuile(x,y,tuile):      #affiche une image sur un grille de tuiles
         afficherImage(x*16,y*16, colormap, tuile)               
         
         
-def grilleDeTuiles(hauteur, largeur):  #affiche la grille entiere de tuiles non-
+def grilleDeTuiles(hauteur, largeur): #affiche la grille entiere de tuiles non
                                         #devoilées en début de jeu 
     for i in range(hauteur):
         for j in range(largeur):
             afficherTuile(i,j, 12) # 12 = tuile non dévoilée
             
 def attendreClic():             # retourne la position de la souris et indique
-                                # si le joueur veux positionner un drapeau 
+                                # si le joueur veux positionner un drap 
 
     souris = getMouse()  #contient [x, y, button, shift, ctrl, alt]
         
@@ -54,11 +54,11 @@ def attendreClic():             # retourne la position de la souris et indique
     posY = souris.y
         
     if souris.button == 2 or (souris.button == 1 and souris.ctrl == True):
-        drapeau = True 
+        drap = True 
     else :
-        drapeau = False
+        drap = False
         
-    evenement = struct(posX = posX, posY = posY, drapeau = drapeau)
+    evenement = struct(posX = posX, posY = posY, drap = drap)
         
     sleep(0.01)          #pour ne pas surcharger le processeur
         
@@ -70,20 +70,20 @@ def grilleDeBooleens(largeur, hauteur): #retourne une grille remplie de False
     return grille
 
 def placerMines(largeur, hauteur, nbMines, x, y):   #place aléatoirement
-                                                    #un nombre de fixe mines                                    
+                                                #un nombre de fixe mines  
     grilleMine = grilleDeBooleens(largeur, hauteur) 
 
     for i in range(nbMines):
                 
-        posMineX = int(math.floor(random() * largeur))#nombre entre 0 & largeur
-        posMineY = int(math.floor(random() * hauteur))#nombre entre 0 & hauteur
+        posMineX = int(math.floor(random() * largeur))#nombre entre 0 &largeur
+        posMineY = int(math.floor(random() * hauteur))#nombre entre 0 &hauteur
         
         if posMineX != x and posMineY != y :
             grilleMine[posMineX][posMineY] = True
          
-        else :              # si position de la mine = position du premier clic
-            i -= 1          # ne pas placer de mine  
-                            #i-1 pour quand meme placer le bon nombre de mines
+        else :             # si position de la mine = position du premier clic
+            i -= 1         # ne pas placer de mine  
+                           #i-1 pour quand meme placer le bon nombre de mines
         
     return grilleMine
 
@@ -127,29 +127,29 @@ def nbMineVoisine(x,y, grilleMine):  # retourne le nombre de mine
                              
     return nbMines
 
-def posDrapeau(grilleDrapeau, drapeau, posX, posY): #retourne un booleen  
-                                                  # qui sert à mettre a jour la 
-                                                  # grille de Drapeau 
+def posdrap(grilleDrap, drap, posX, posY): #retourne un booleen  
+                                                 # qui sert à mettre a jour la 
+                                                 # grille de drap 
                         
-    if drapeau == True and grilleDrapeau[posX][posY] == False : #pas de drapeau 
-        afficherTuile(posX, posY, 13)                      #afficher un drapeau
+    if drap == True and grilleDrap[posX][posY] == False :#pas de drap 
+        afficherTuile(posX, posY, 13)                     #afficher un drap
         return True
 
-    elif drapeau == True and grilleDrapeau[posX][posY] == True :#deja un drapeau
+    elif drap == True and grilleDrap[posX][posY] == True :#deja drap
         afficherTuile(posX, posY, 12)            #12 = tuile non devoilee 
-        return False                                         #enlever le drapeau 
+        return False                                         #enlever  drap 
              
     
 
-def devoilerCase(grilleMine, grilleDrapeau, grilleCase, drapeau, posX, posY):
+def devoilCase(grilleMine, grilleDrap, grilleCase, drap, posX, posY):
     
     hauteur = int(getScreenHeight()/16)
     largeur = int(getScreenWidth()/16)
      
     fin = False  
-      #fin : utilise dans la boucle while fin = False de la fonction principale
+      #fin : utilise dans la boucle while fin = False de fonction principale
         
-    if grilleDrapeau[posX][posY] == True :  # si drapeau : ne rien faire 
+    if grilleDrap[posX][posY] == True :  # si drap : ne rien faire 
         return     #continue? 
         
     elif grilleMine[posX][posY] == True :   # si mine : terminer jeu
@@ -204,7 +204,7 @@ def demineur(hauteur, largeur, nbMines):
     setScreenMode(hauteur*16, largeur*16)  #grille de pixel 
         
     grilleDeTuiles(hauteur,largeur)             
-    grilleDrapeau = grilleDeBooleens(hauteur, largeur) # a mettre a jour
+    grilleDrap = grilleDeBooleens(hauteur, largeur) # a mettre a jour
     grilleCase = grilleDeBooleens(hauteur, largeur)    # a mettre a jour
  
     
@@ -217,17 +217,17 @@ def demineur(hauteur, largeur, nbMines):
         posY = evenement.posY
         posTX = math.floor(posX/16)             #position de la tuile
         posTY = math.floor(posY/16)
-        drapeau = evenement.drapeau
+        drap = evenement.drap
         
         souris = getMouse()
         
         if souris.button == 1 and souris.ctrl == False :   #premier clic
             grilleMine = placerMines(hauteur, largeur, nbMines, posTX, posTY)
-            devoilerCase(grilleMine,grilleDrapeau,grilleCase,drapeau,posTX,posTY)
+            devoilCase(grilleMine,grilleDrap,grilleCase,drap,posTX,posTY)
             premierClick = False
         
-        elif drapeau == True: #joueur veux poser un drapeau
-            grilleDrapeau[posTX][posTY]=posDrapeau(grilleDrapeau,drapeau,posTX,posTY)
+        elif drap == True: #joueur veux poser un drap
+            grilleDrap[posTX][posTY]=posdrap(grilleDrap,drap,posTX,posTY)
             
             
 
@@ -242,15 +242,15 @@ def demineur(hauteur, largeur, nbMines):
         posTX = math.floor(posX/16)       #position de la tuile
         posTY = math.floor(posY/16)
         
-        drapeau = evenement.drapeau
+        drap = evenement.drap
         souris = getMouse()
         
-        if drapeau == True: 
-            print(grilleDrapeau)
-            grilleDrapeau[posX][posTY]=posDrapeau(grilleDrapeau,drapeau,posTX,posTY) 
-            print(grilleDrapeau)
+        if drap == True: 
+            print(grilleDrap)
+            grilleDrap[posX][posTY]=posdrap(grilleDrap,drap,posTX,posTY) 
+            print(grilleDrap)
         elif souris.button == 1 and souris.ctrl == False :
-            fin=devoilerCase(grilleMine,grilleDrapeau,grilleCase,drapeau,posTX,posTY)
+            fin=devoilCase(grilleMine,grilleDrap,grilleCase,drap,posTX,posTY)
                 
 def testDemineur():
     setScreenMode(16*2,16*1)
@@ -396,7 +396,6 @@ def testDemineur():
     assert grilleDeBooleens(8,5) == [[False,False,False,False,False,False,False,False], [False,False,False,False,False,False,False,False],[False,False,False,False,False,False,False,False],
                                  [False,False,False,False,False,False,False,False],[False,False,False,False,False,False,False,False]]
 testDemineur()
-        
         
       
   
