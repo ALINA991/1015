@@ -220,35 +220,36 @@ def demineur(hauteur, largeur, nbMines):
         
         souris = getMouse()
         
-        if souris.button == 1 and souris.ctrl == False :   #premier click
-            grilleMine = placerMines(hauteur, largeur, nbMines, posTX, posTY) #on place les mines aleatoirement sauf a lendroit qui vient detre cliqué 
-            devoilerCase(grilleMine, grilleDrapeau, grilleCase, drapeau, posTX, posTY)
+        if souris.button == 1 and souris.ctrl == False :   #premier clic
+            grilleMine = placerMines(hauteur, largeur, nbMines, posTX, posTY)
+            devoilerCase(grilleMine,grilleDrapeau,grilleCase,drapeau,posTX,posTY)
             premierClick = False
         
-        elif drapeau == True: 
-            print(grilleDrapeau)
-            grilleDrapeau[posTX][posTY] = posDrapeau(grilleDrapeau, drapeau, posTX, posTY)
-            print(grilleDrapeau)
+        elif drapeau == True: #joueur veux poser un drapeau
+            grilleDrapeau[posTX][posTY]=posDrapeau(grilleDrapeau,drapeau,posTX,posTY)
+            
             
 
     fin = False
-    
-    while fin == False : 
+    while fin == False :       #boucle principale
+                
         evenement = attendreClic() 
+        
         posX = evenement.posX             #position du pixel
         posY = evenement.posY
+        
         posTX = math.floor(posX/16)       #position de la tuile
         posTY = math.floor(posY/16)
+        
         drapeau = evenement.drapeau
-      
         souris = getMouse()
         
         if drapeau == True: 
             print(grilleDrapeau)
-            grilleDrapeau[posX][posTY] = posDrapeau(grilleDrapeau, drapeau, posTX, posTY) # est ce que c'est possible de mettre a jours grille drapeau comme ca? 
+            grilleDrapeau[posX][posTY]=posDrapeau(grilleDrapeau,drapeau,posTX,posTY) 
             print(grilleDrapeau)
         elif souris.button == 1 and souris.ctrl == False :
-            fin = devoilerCase(grilleMine, grilleDrapeau, grilleCase, drapeau, posTX, posTY)
+            fin=devoilerCase(grilleMine,grilleDrapeau,grilleCase,drapeau,posTX,posTY)
                 
 def testDemineur():
     setScreenMode(16*2,16*1)
