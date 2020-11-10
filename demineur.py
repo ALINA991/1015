@@ -44,10 +44,7 @@ import tuiles
 
 colormap = tuiles.colormap
 images= tuiles.images
-  
-
-
-
+ 
 def afficherImage(x, y,colormap, image):
     
 
@@ -210,7 +207,8 @@ def terminerJeu(victoire, grilleMine, posX, posY):
             for j in range(largeur):     #afficher toutes les mines restantes
                 if grilleMine[i][j] == True :
                     afficherTuile(i,j, 9) 
-        alert('Vous avez perdu!')    
+        alert('Vous avez perdu!')   
+        
     fin = True  
         
     return fin #fin devient True -> on sort de la boucle while fin = False de la fonction principale : fin du jeu 
