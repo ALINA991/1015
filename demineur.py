@@ -383,7 +383,11 @@ def testDemineur():
     
     
 
-
+    assert placerMines(2,2,0,1,2) == [[False, False], [False, False]]
+    assert placerMines(2,3,0,1,2) == [[False, False], [False, False],[False, False]]
+    assert placerMines(2,4,0,1,2) == [[False, False], [False, False],[False, False],[False, False]]
+    assert placerMines(2,5,0,1,2) == [[False, False], [False, False],[False, False],[False, False],[False, False]]
+    assert placerMines(2,6,0,1,2) == [[False, False], [False, False],[False, False],[False, False],[False, False],[False, False]]
     
 testDemineur()
         
