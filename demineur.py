@@ -1,43 +1,18 @@
-'''creer : 
-- fonction qui cree tableau de tuiles (+++ grille des pixel les un a cote des autres)
-- fonction 
-        - deposer un drapeau (utiliser attendre clic) : DONE 
-        - devoiler un case (boutton principal) :DONE 
-              - affiche nb de mines voisine (si pas de mine) :DONE
-              - affiche mine rouge & toutes mine & termine le jeu (si mine) :DONE 
-              
-- fonction principale (hauteur, largeur) : 
-    - creer table de grandeur specifiée  
-    - attendre le premier click 
-    - positioner mines 
-    - afficher nb de mines voisines apres 1er clic 
-    - si joueur positionne drapeau --> positionnerdrapeau()
-    - si joueru devoile case --> devoilerCase()
-    - si jouer devoile mine --> devoilerCase() # va voir que mine = True dans le tableau de Mine et terminer jeu
-    
-RESTE A VOIR : 
-        - comment afficher grille de pixel 
-        - crrer afficherTuiles() & comprendre difference avec afficher image
-        - est ce qu'on peu mettre a jour grilleDrapeau en le mettant comme parametre dans sa propre fonction??
-                        => grilleDrapeau = positionnerDrapeau(hauteur, largeur, grilleDrapeau) possible pour mettre a jour? 
-        - est ce que fonction getMouse() retourne des position x, y qu'on peu actually utiliser en tant que index dans des tableau 
-                ex: pour mettre a jour le tableau grilleDrapeau lorsque joueur positionne drapeau 
-        - faire fonctions TESTs()
+'''
+Auteurs : Ziad Khafagy - 20161904, Alina Weinberger 20066963
+Date : 9.11.2020
+
+Description : 
+        Ce fichier permet de creer le jeu interactif demineur. Les regles du jeu
+        peuvent etre trouver sur le web.
         
-        
-A MODIFIER : 
-        - attendreclick() doit returner un enregistrement :DONE
-        - nbMinevoisne doit prendre en compte au niveau des bors : moins de 8 tuiles voisines : DONE
-        - si toutes tuiles devoilee il faut treminer le jeu : DONE 
-        
-        _ FONCTION AFFICHER GRILLE DE TUILES? --> pour terminer le jeu lorsque toute mines sont devoilee DONE MAIS SANS FONCTION 
-                        VOIR SI MIEUX AVEC FONCTION 
-                        il faut check si pour toutes tuiles != mine --> tuiles 
-        - cheack pour position x,y de getMouse --> convertir en int en fonction de taille de grille de tuiles
-        
-        JE PENSE QUIL FAUT UNE FONCTION GRILLE DE TUILES ABSOLUMENT 
-        PUIS ON POURRAS AVOIR DES (x,Y) qu'on va arrondir en fonction de la taille des tuiles (qui est en fonction de la taille de la grille de tuiles)
-        
+        Fonction principale demineur():
+                Cette fonction permet d'attendre le premier click du joueur sur 
+                une grille de tuiles avant de placer des mines aléatoirement.
+                Ensuite le joueur devoiles les cases une à une, lorsqu'il
+                n'y a plus de tuiles à devoiler ou lorsqu'une mine est 
+                devoilée, le jeu est terminé.
+            
 
 '''
 import tuiles
@@ -45,8 +20,8 @@ import tuiles
 colormap = tuiles.colormap
 images= tuiles.images
  
-def afficherImage(x, y,colormap, image):
-    
+def afficherImage(x, y,colormap, image):      #permet d'afficher une image
+                                               #sur une grille de pixel
 
     nbPixelParTuile = 16
     aAfficher = tuiles.images[image] 
@@ -59,20 +34,21 @@ def afficherImage(x, y,colormap, image):
             setPixel(i,j,colormap[aAfficher[s][t]]) 
         s=0
             
-def afficherTuile(x,y,tuile):
-        afficherImage(x*16,y*16, colormap, tuile)
+def afficherTuile(x,y,tuile):      #affiche une image sur un grille de tuiles 
+                                                #une tuile = 16*16 pixels
+        afficherImage(x*16,y*16, colormap, tuile)               
         
         
-def grilleDeTuiles(hauteur, largeur): 
+def grilleDeTuiles(hauteur, largeur):  #affiche la grille entiere de tuiles non-
+                                        #devoilées en début de jeu 
     for i in range(hauteur):
         for j in range(largeur):
-            afficherTuile(i,j, 12) #tuile non dévoilée
+            afficherTuile(i,j, 12) # 12 = tuile non dévoilée
             
-def attendreClic():
-    #doit retourner position (x,y) de la souris
-    #et drapeau = True si joueur veux positionner un drapeau (voir clics a faire)
+def attendreClic():             # retourne la position de la souris et indique
+                                # si le joueur veux positionner un drapeau 
 
-    souris = getMouse() #contient [x, y, button, shift, ctrl, alt]
+    souris = getMouse()  #contient [x, y, button, shift, ctrl, alt]
         
     posX = souris.x
     posY = souris.y
@@ -84,83 +60,84 @@ def attendreClic():
         
     evenement = struct(posX = posX, posY = posY, drapeau = drapeau)
         
-    sleep(0.01)    #pour pas surcharger le processeur
+    sleep(0.01)          #pour ne pas surcharger le processeur
         
     return evenement
 
-def grilleDeBooleens(largeur, hauteur):
-    #retourne une grille remplie de False 
-    #a mettre a jours lorsque joueur a positionne des drapeau 
-    
+def grilleDeBooleens(largeur, hauteur): #retourne une grille remplie de False 
+                                          
     grille = [[False] * largeur] * hauteur
     return grille
 
-def placerMines(largeur, hauteur, nbMines, x, y): #(x,y) position du premier click
+def placerMines(largeur, hauteur, nbMines, x, y):   #place aléatoirement
+                                                    #un nombre de fixe mines                                    
+    grilleMine = grilleDeBooleens(largeur, hauteur) 
 
-    grilleMine = grilleDeBooleens(largeur, hauteur)   #grille remplie de False
     for i in range(nbMines):
-        posMineX = int(math.floor(random() * largeur))
-        posMineY = int(math.floor(random() * hauteur))
-        print(posMineX, posMineY)
+                
+        posMineX = int(math.floor(random() * largeur))#nombre entre 0 & largeur
+        posMineY = int(math.floor(random() * hauteur))#nombre entre 0 & hauteur
         
         if posMineX != x and posMineY != y :
             grilleMine[posMineX][posMineY] = True
-            print(grilleMine)
-        else :              # si position de la mine à placer = position du premier click
-            i -= 1           # ne pas placer de mine et i-1 pour quand meme placer le bon nombre de mines 
+         
+        else :              # si position de la mine = position du premier clic
+            i -= 1          # ne pas placer de mine  
+                            #i-1 pour quand meme placer le bon nombre de mines
         
     return grilleMine
 
-def nbMineVoisine(x,y, grilleMine):  #retourne le nb de mine autour de la tuile a la postion (x,y)
-      
-        
+
+def nbMineVoisine(x,y, grilleMine):  # retourne le nombre de mine
+                                     # autour de la tuile (x,y)
     hauteur = getScreenHeight()/16
     largeur = getScreenWidth()/16
-    
 
     posX = x 
     posY = y 
     
-    nbMines = 0
-
-    if posX == 0  :             #determiner si x est sur le bord *superieur 
+    nbMines = 0         #compteur
+                                #determiner si x est:
+    if posX == 0  :                         # *sur le bord *superieur 
         debutX = posX
         finX = posX +1    
-    elif posX != 0 and posX != hauteur-1 : #*au milieur de la grille
+    elif posX != 0 and posX != hauteur-1 :  # *au milieur de la grille
         debutX = posX-1
         finX = posX +1
-    elif posX == hauteur - 1:  #sur le bord inferieur
+    elif posX == hauteur - 1:               # *sur le bord inferieur
         debutX = posX -1
         finX = posX
      
-
-    if posY == 0 :                      #determiner si y est sur le bord gauche
+                                #determiner si y est:
+    if posY == 0 :                               # *sur le bord gauche
         debutY = posY 
         finY = posY +1 
-    elif posY != 0 and posY != largeur - 1 :    #*au milieur de la grille
+    elif posY != 0 and posY != largeur - 1 :     # *au milieur de la grille
         debutY = posY-1
         finY = posY +1
-    elif posY == largeur - 1:            #sur le bord droit
+    elif posY == largeur - 1:                    # *sur le bord droit
         debutY = posY-1
         finY = posY 
            
         
-    for i in range(debutX, finX):   #calculer nb de mines voisines 
+    for i in range(debutX, finX):               #calculer nb de mines voisines 
         for j in range(debutY, finY):
             if grilleMine[i][j] == True:
                 nbMines += 1
                              
     return nbMines
 
-def positionerDrapeau(grilleDrapeau, drapeau, posX, posY): #####
-   
-    
-    if drapeau == True and grilleDrapeau[posX][posY] == False :   #sil ny a pas encore de drapeau sur la tuile 
-        afficherTuile(posX, posY, 13) # 13= numero de tuile avec drapeau  # FONCTION A DEFINIR !!!
+def positionerDrapeau(grilleDrapeau, drapeau, posX, posY): #retourne un booleen  
+                                                  # qui sert à mettre a jour la 
+                                                  # grille de Drapeau 
+                        
+    if drapeau == True and grilleDrapeau[posX][posY] == False : #pas de drapeau 
+        afficherTuile(posX, posY, 13)                      #afficher un drapeau
         return True
-    elif drapeau == True and grilleDrapeau[posX][posY] == True :    #sil y a deja un drapeau sur la tuile
-        afficherTuile(posX, posY, 12) #12 = tuile non devoilee 
-        return False     #enlever le drapeau 
+
+    elif drapeau == True and grilleDrapeau[posX][posY] == True :#deja un drapeau
+        afficherTuile(posX, posY, 12)            #12 = tuile non devoilee 
+        return False                                         #enlever le drapeau 
              
     
 
@@ -170,23 +147,24 @@ def devoilerCase(grilleMine, grilleDrapeau, grilleCase, drapeau, posX, posY):
     largeur = int(getScreenWidth()/16)
      
     fin = False  
-    #utilisé dans la boucle while fin = False de la fonction principale
-    if grilleDrapeau[posX][posY] == True :       # si drapeau : ne rien faire 
+      #fin : utilise dans la boucle while fin = False de la fonction principale
+        
+    if grilleDrapeau[posX][posY] == True :  # si drapeau : ne rien faire 
         return     #continue? 
         
-    elif grilleMine[posX][posY] == True :        # si mine : terminer jeu
-        afficherTuile(posX, posY, 10) # 10: mine sur fond rouge
-        fin = terminerJeu(False, grilleMine, posX, posY) # A DEFINIR
+    elif grilleMine[posX][posY] == True :   # si mine : terminer jeu
+        afficherTuile(posX, posY, 10)
+        fin = terminerJeu(False, grilleMine, posX, posY) 
         
     else:
-        nbMinesVoisines = nbMineVoisine(posX, posY, grilleMine)     # si pas de mine et pas de drapeau 
+        nbMinesVoisines = nbMineVoisine(posX, posY, grilleMine)     
         afficherTuile(posX, posY, nbMinesVoisines)  
         grilleCase[posX][posY] = True 
         
-        #test = True                                     # test si toutes les tuiles non-mines sont devoilees
-        #for i in range(hauteur):
-            #for j in range(largeur):                 #si oui alors toutes les case de grilleCase 
-                #if grilleCase[i][j] == grilleMine[i][j]:        #devrait etre l'inverse de grilleMine (pas un de ==)
+        #test = True      # test si toutes les tuiles non-mines sont devoilees
+        #for i in range(hauteur):                #si oui grilleCase devrait
+            #for j in range(largeur):            # etre l'oppose de grilleMine
+                #if grilleCase[i][j] == grilleMine[i][j]:        
                     #test = False 
                     #break
         #if test == True:
@@ -195,6 +173,7 @@ def devoilerCase(grilleMine, grilleDrapeau, grilleCase, drapeau, posX, posY):
     return fin   
 
 def terminerJeu(victoire, grilleMine, posX, posY):
+        
     hauteur = int(getScreenHeight()/16)
     largeur = int(getScreenWidth()/16)
    
@@ -202,7 +181,7 @@ def terminerJeu(victoire, grilleMine, posX, posY):
         alert('Vous avez gagné!')
                    
     if victoire ==  False:
-        afficherTuile(posX,posY, 10) 
+        afficherTuile(posX,posY, 10) #afficher la mine cliquee en rouge
         for i in range(hauteur):
             for j in range(largeur):     #afficher toutes les mines restantes
                 if grilleMine[i][j] == True :
@@ -211,8 +190,8 @@ def terminerJeu(victoire, grilleMine, posX, posY):
         
     fin = True  
         
-    return fin #fin devient True -> on sort de la boucle while fin = False de la fonction principale : fin du jeu 
-
+    return fin  #fin devient True 
+                #on sort de la boucle principale de la fonction principale
 
 
 def demineur(hauteur, largeur, nbMines): 
@@ -223,17 +202,17 @@ def demineur(hauteur, largeur, nbMines):
    
     setScreenMode(hauteur*16, largeur*16)  #grille de pixel 
         
-    grilleDeTuiles(hauteur,largeur)
-    grilleDrapeau = grilleDeBooleens(hauteur, largeur) # a mettre a jour avec la fonction positionnerdrapeau()
-    grilleCase = grilleDeBooleens(hauteur, largeur) 
+    grilleDeTuiles(hauteur,largeur)             
+    grilleDrapeau = grilleDeBooleens(hauteur, largeur) # a mettre a jour
+    grilleCase = grilleDeBooleens(hauteur, largeur)    # a mettre a jour
  
     
     premierClick = True
         
     while premierClick:
         
-        evenement = attendreClic() # est ce que le while True dans attendreClick() continue a tourner si je ne met pas de while true ici? 
-        posX = evenement.posX #VOIR SIL FAUT PAS CONVERTIR POSITIONS
+        evenement = attendreClic() 
+        posX = evenement.posX 
         posY = evenement.posY
         posTuileX = math.floor(posX/16)
         posTuileY = math.floor(posY/16)
@@ -400,125 +379,9 @@ def testDemineur():
 #000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000\n\
 #000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000'
 
-
-    setScreenMode(16*2,16*1)
-    afficherTuile(1,0,4)
-    assert exportScreen() == '\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#008#008#008#ccc#008#008#008#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#008#008#008#ccc#008#008#008#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#008#008#008#ccc#ccc#008#008#008#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#008#008#008#ccc#ccc#008#008#008#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#008#008#008#008#008#008#008#008#008#008#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#008#008#008#008#008#008#008#008#008#008#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#008#008#008#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#008#008#008#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#008#008#008#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#008#008#008#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000'
-    setScreenMode(16*3,16*2)
-    afficherTuile(2,1,5)
-    assert exportScreen () =='\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#800#800#800#800#800#800#800#800#800#800#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#800#800#800#800#800#800#800#800#800#800#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#800#800#800#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#800#800#800#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#800#800#800#800#800#800#800#800#800#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#800#800#800#800#800#800#800#800#800#800#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#800#800#800#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#800#800#800#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#800#800#800#800#800#800#800#800#800#800#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#800#800#800#800#800#800#800#800#800#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000'
-    setScreenMode(16*3,16*1)
-    afficherTuile(2,0,11)
-    assert exportScreen () =='\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#f00#f00#ccc#ccc#ccc#ccc#000#ccc#ccc#ccc#ccc#f00#f00#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#f00#f00#ccc#000#000#000#000#000#ccc#f00#f00#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#f00#f00#000#000#000#000#000#f00#f00#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#000#f00#f00#fff#000#000#f00#f00#000#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#000#000#f00#f00#000#f00#f00#000#000#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#000#000#000#000#000#f00#f00#f00#000#000#000#000#000#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#000#000#f00#f00#000#f00#f00#000#000#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#000#f00#f00#000#000#000#f00#f00#000#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#f00#f00#000#000#000#000#000#f00#f00#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#f00#f00#ccc#000#000#000#000#000#000#f00#f00#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#f00#f00#ccc#ccc#ccc#ccc#000#ccc#ccc#ccc#ccc#f00#f00#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000'
-    setScreenMode(16*2,16*1)
-    afficherTuile(1,0,13)
-    assert exportScreen () == '\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#fff#fff#fff#fff#fff#fff#fff#fff#fff#fff#fff#fff#fff#fff#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#fff#fff#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#888#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#fff#fff#ccc#ccc#ccc#ccc#ccc#f00#f00#ccc#ccc#ccc#ccc#ccc#888#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#fff#fff#ccc#ccc#ccc#f00#f00#f00#f00#ccc#ccc#ccc#ccc#ccc#888#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#fff#fff#ccc#ccc#f00#f00#f00#f00#f00#ccc#ccc#ccc#ccc#ccc#888#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#fff#fff#ccc#ccc#ccc#f00#f00#f00#f00#ccc#ccc#ccc#ccc#ccc#888#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#fff#fff#ccc#ccc#ccc#ccc#ccc#f00#f00#ccc#ccc#ccc#ccc#ccc#888#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#fff#fff#ccc#ccc#ccc#ccc#ccc#ccc#000#ccc#ccc#ccc#ccc#ccc#888#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#fff#fff#ccc#ccc#ccc#ccc#ccc#ccc#000#ccc#ccc#ccc#ccc#ccc#888#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#fff#fff#ccc#ccc#ccc#ccc#000#000#000#000#ccc#ccc#ccc#ccc#888#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#fff#fff#ccc#ccc#000#000#000#000#000#000#000#000#ccc#ccc#888#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#fff#fff#ccc#ccc#000#000#000#000#000#000#000#000#ccc#ccc#888#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#fff#fff#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#888#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#fff#ccc#888#888#888#888#888#888#888#888#888#888#888#888#888#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#fff#888#888#888#888#888#888#888#888#888#888#888#888#888#888#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000'
-    setScreenMode(16*2,16*1)
-    afficherTuile(1,0,10)
-    assert exportScreen () == '\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#f00#f00#f00#f00#f00#f00#f00#f00#f00#f00#f00#f00#f00#f00#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#f00#f00#f00#f00#f00#f00#f00#000#f00#f00#f00#f00#f00#f00#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#f00#f00#f00#f00#f00#f00#f00#000#f00#f00#f00#f00#f00#f00#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#f00#f00#f00#000#f00#000#000#000#000#000#f00#000#f00#f00#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#f00#f00#f00#f00#000#000#000#000#000#000#000#f00#f00#f00#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#f00#f00#f00#000#000#fff#fff#000#000#000#000#000#f00#f00#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#f00#f00#f00#000#000#fff#fff#000#000#000#000#000#f00#f00#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#f00#000#000#000#000#000#000#000#000#000#000#000#000#000#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#f00#f00#f00#000#000#000#000#000#000#000#000#000#f00#f00#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#f00#f00#f00#000#000#000#000#000#000#000#000#000#f00#f00#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#f00#f00#f00#f00#000#000#000#000#000#000#000#f00#f00#f00#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#f00#f00#f00#000#f00#000#000#000#000#000#f00#000#f00#f00#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#f00#f00#f00#f00#f00#f00#f00#000#f00#f00#f00#f00#f00#f00#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#f00#f00#f00#f00#f00#f00#f00#000#f00#f00#f00#f00#f00#f00#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#f00#f00#f00#f00#f00#f00#f00#f00#f00#f00#f00#f00#f00#f00#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000'
     
-assert grilleDeBooleens(1,2) == [[False], [False]]
-assert grilleDeBooleens(2,2) == [[False,False], [False,False]]
-assert grilleDeBooleens(3,5) == [[False,False,False], [False,False,False],[False,False,False],[False,False,False],[False,False,False]]
-assert grilleDeBooleens(3,2) == [[False,False,False], [False,False,False]]
-assert grilleDeBooleens(8,5) == [[False,False,False,False,False,False,False,False], [False,False,False,False,False,False,False,False],[False,False,False,False,False,False,False,False],
-                                 [False,False,False,False,False,False,False,False],[False,False,False,False,False,False,False,False]]
+    
+
 
     
 testDemineur()
