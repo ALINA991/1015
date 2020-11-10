@@ -513,7 +513,12 @@ def testDemineur():
 #000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#f00#f00#f00#f00#f00#f00#f00#f00#f00#f00#f00#f00#f00#f00#000\n\
 #000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000'
     
-
+assert grilleDeBooleens(1,2) == [[False], [False]]
+assert grilleDeBooleens(2,2) == [[False,False], [False,False]]
+assert grilleDeBooleens(3,5) == [[False,False,False], [False,False,False],[False,False,False],[False,False,False],[False,False,False]]
+assert grilleDeBooleens(3,2) == [[False,False,False], [False,False,False]]
+assert grilleDeBooleens(8,5) == [[False,False,False,False,False,False,False,False], [False,False,False,False,False,False,False,False],[False,False,False,False,False,False,False,False],
+                                 [False,False,False,False,False,False,False,False],[False,False,False,False,False,False,False,False]]
 
     
 testDemineur()
