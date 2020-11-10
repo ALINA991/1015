@@ -96,7 +96,7 @@ def grilleDeBooleens(largeur, hauteur):
     #a mettre a jours lorsque joueur a positionne des drapeau 
     
     grille = [[False] * largeur] * hauteur
-    return grille 
+    return grille
 
 def placerMines(largeur, hauteur, nbMines, x, y): #(x,y) position du premier click
 
@@ -104,8 +104,11 @@ def placerMines(largeur, hauteur, nbMines, x, y): #(x,y) position du premier cli
     for i in range(nbMines):
         posMineX = int(math.floor(random() * largeur))
         posMineY = int(math.floor(random() * hauteur))
+        print(posMineX, posMineY)
+        
         if posMineX != x and posMineY != y :
             grilleMine[posMineX][posMineY] = True
+            print(grilleMine)
         else :              # si position de la mine à placer = position du premier click
             i -= 1           # ne pas placer de mine et i-1 pour quand meme placer le bon nombre de mines 
         
@@ -183,14 +186,14 @@ def devoilerCase(grilleMine, grilleDrapeau, grilleCase, drapeau, posX, posY):
         afficherTuile(posX, posY, nbMinesVoisines)  
         grilleCase[posX][posY] = True 
         
-        test = True                                     # test si toutes les tuiles non-mines sont devoilees
-        for i in range(hauteur):
-            for j in range(largeur):                 #si oui alors toutes les case de grilleCase 
-                if grilleCase[i][j] == grilleMine[i][j]:        #devrait etre l'inverse de grilleMine (pas un de ==)
-                    test = False 
-                    break
-        if test == True:
-            fin = terminerJeu(True, grilleMine, posX, posY)
+        #test = True                                     # test si toutes les tuiles non-mines sont devoilees
+        #for i in range(hauteur):
+            #for j in range(largeur):                 #si oui alors toutes les case de grilleCase 
+                #if grilleCase[i][j] == grilleMine[i][j]:        #devrait etre l'inverse de grilleMine (pas un de ==)
+                    #test = False 
+                    #break
+        #if test == True:
+            #fin = terminerJeu(True, grilleMine, posX, posY)
                         
     return fin   
 
@@ -226,7 +229,7 @@ def demineur(hauteur, largeur, nbMines):
     grilleDrapeau = grilleDeBooleens(hauteur, largeur) # a mettre a jour avec la fonction positionnerdrapeau()
     grilleCase = grilleDeBooleens(hauteur, largeur) 
  
-    print(grilleDrapeau)
+    
     premierClick = True
         
     while premierClick:
@@ -240,16 +243,19 @@ def demineur(hauteur, largeur, nbMines):
         
         souris = getMouse()
         
-        if drapeau == True: 
-            print(grilleDrapeau)
-            grilleDrapeau[posTuileX][posTuileY] = positionnerDrapeau(grilleDrapeau, drapeau, posTuileX, posTuileY)
-            print(grilleDrapeau)
-        elif souris.button == 1 and souris.ctrl == False :   #premier click
+        if souris.button == 1 and souris.ctrl == False :   #premier click
             grilleMine = placerMines(hauteur, largeur, nbMines, posTuileX, posTuileY) #on place les mines aleatoirement sauf a lendroit qui vient detre cliqué 
             devoilerCase(grilleMine, grilleDrapeau, grilleCase, drapeau, posTuileX, posTuileY)
             premierClick = False
         
+        elif drapeau == True: 
+            print(grilleDrapeau)
+            grilleDrapeau[posTuileX][posTuileY] = positionnerDrapeau(grilleDrapeau, drapeau, posTuileX, posTuileY)
+            print(grilleDrapeau)
+            
+
     fin = False
+    
     while fin == False : 
         evenement = attendreClic() 
         posX = evenement.posX             #VOIR SIL FAUT PAS CONVERTIR POSITIONS
