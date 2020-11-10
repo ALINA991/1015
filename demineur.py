@@ -161,6 +161,7 @@ def devoilerCase(grilleMine, grilleDrapeau, grilleCase, drapeau, posX, posY):
         afficherTuile(posX, posY, nbMinesVoisines)  
         grilleCase[posX][posY] = True 
         
+#lidee est la mais ne marche malheureusement pas comme prevu
         #test = True      # test si toutes les tuiles non-mines sont devoilees
         #for i in range(hauteur):                #si oui grilleCase devrait
             #for j in range(largeur):            # etre l'oppose de grilleMine
