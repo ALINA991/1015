@@ -256,8 +256,10 @@ def testDemineur():
     setScreenMode(16*2,16*1)
     afficherImage(16,0, tuiles.colormap,4)
     assert exportScreen() == '\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
-#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
+#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888\
+#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
+#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888\
+#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#ccc#000\n\
 #000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#008#008#008#ccc#008#008#008#ccc#ccc#ccc#000\n\
 #000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#ccc#008#008#008#ccc#008#008#008#ccc#ccc#ccc#000\n\
 #000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#000#888#ccc#ccc#ccc#008#008#008#ccc#ccc#008#008#008#ccc#ccc#ccc#000\n\
