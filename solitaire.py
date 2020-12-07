@@ -32,7 +32,7 @@
                 - afficher victoire
         - le joueur ne peux plus brasser (compteur = 0 ) ET il ne peux plus deplacer de cartes 
                 - afficher perdu 
-           
+ '''          
 
 def init():
     main = document.querySelector("#main")
