@@ -21,7 +21,7 @@
         - utiliser #carteN comme identificateur -> remplir innerHTML
         
 - creer fonction brasser carte() 
-        - avoir compteur pour brasser au max 3 fois 
+        - avoir compteur pour brasser au max 3 fois -- afficher cmb de fois reste a lecran
         - brasser seulement cartes qui ne sont pas encore aligne a gauche a partir de 2
         - creer bouton 'brasser les cartes' et afficher a lecran du joueur
         
