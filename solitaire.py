@@ -10,7 +10,7 @@
         - voir demo ou on a créer un tableau en prog web 
         - faire en sorte de les mélanger aléatirement au chargement (random()? ) 
         
-- lister document.querySelector("#casen") avec chaque numero de carte -> permet d'Acceder a la carte 
+- lister document.querySelector("#caseN") avec chaque numero de carte -> permet d'Acceder a la carte 
 
 - creer fonction clic() qui definir action a faire lorsque clic : 
         - déplacement au prochain emplacement possible :
