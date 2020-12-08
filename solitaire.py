@@ -34,13 +34,13 @@
                 - afficher perdu 
  ''' 
 def idCartes(i):                # retourne id et nom de carte pour init()
-    cartes = [  AH.svg, AD.svg, AS.svg, AC.svg, 2H.svg, 2D.svg, 2S.svg, 2C.svg,
-                3H.svg, 3D.svg, 3S.svg, 3C.svg, 4H.svg, 4D.svg, 4S.svg, 4C.svg,
-                5H.svg, 5D.svg, 5S.svg, 5C.svg, 6H.svg, 6D.svg, 6S.svg, 6C.svg,
-                7H.svg, 7D.svg, 7S.svg, 7C.svg, 8H.svg, 8D.svg, 8S.svg, 8C.svg,
-                9H.svg, 9D.svg, 9S.svg, 9C.svg, 10H.svg, 10D.svg, 10S.svg, 10C.svg,
-                JH.svg, JD.svg, JS.svg, JC.svg, QH.svg, QD.svg, QS.svg, QC.svg, 
-                KH.svg, KD.svg, KS.svg, KC.svg]
+    cartes = [  "AH.svg", "AD.svg", "AS.svg", "AC.svg", "2H.svg", "2D.svg", "2S.svg", "2C.svg",
+                "3H.svg", "3D.svg", "3S.svg", "3C.svg", "4H.svg", "4D.svg", "4S.svg", "4C.svg",
+                "5H.svg", "5D.svg", "5S.svg", "5C.svg", "6H.svg", "6D.svg", "6S.svg", "6C.svg",
+                "7H.svg", "7D.svg", "7S.svg", "7C.svg", "8H.svg", "8D.svg", "8S.svg", "8C.svg",
+                "9H.svg", "9D.svg", "9S.svg", "9C.svg", "10H.svg", "10D.svg", "10S.svg", "10C.svg",
+                "JH.svg", "JD.svg", "JS.svg", "JC.svg", "QH.svg", "QD.svg", "QS.svg", "QC.svg", 
+                "KH.svg", "KD.svg", "KS.svg", "KC.svg"]
      return "case" + i , cartes[i]
 
                          #fonctions de demo 11 
@@ -68,13 +68,13 @@ def tableJoin(lst): return table(''.join(lst))          # ex inclure dans chaque
 def listeToTable(lst, taille):
     return tableJoin(list(map(trJoin, grouper(list(map(td, cartes), taille))))
 
-    cartes = [  AH.svg, AD.svg, AS.svg, AC.svg, 2H.svg, 2D.svg, 2S.svg, 2C.svg,
-                3H.svg, 3D.svg, 3S.svg, 3C.svg, 4H.svg, 4D.svg, 4S.svg, 4C.svg,
-                5H.svg, 5D.svg, 5S.svg, 5C.svg, 6H.svg, 6D.svg, 6S.svg, 6C.svg,
-                7H.svg, 7D.svg, 7S.svg, 7C.svg, 8H.svg, 8D.svg, 8S.svg, 8C.svg,
-                9H.svg, 9D.svg, 9S.svg, 9C.svg, 10H.svg, 10D.svg, 10S.svg, 10C.svg,
-                JH.svg, JD.svg, JS.svg, JC.svg, QH.svg, QD.svg, QS.svg, QC.svg, 
-                KH.svg, KD.svg, KS.svg, KC.svg]
+    cartes = [  "AH.svg", "AD.svg", "AS.svg", "AC.svg", "2H.svg", "2D.svg", "2S.svg", "2C.svg",
+                "3H.svg", "3D.svg", "3S.svg", "3C.svg", "4H.svg", "4D.svg", "4S.svg", "4C.svg",
+                "5H.svg", "5D.svg", "5S.svg", "5C.svg", "6H.svg", "6D.svg", "6S.svg", "6C.svg",
+                "7H.svg", "7D.svg", "7S.svg", "7C.svg", "8H.svg", "8D.svg", "8S.svg", "8C.svg",
+                "9H.svg", "9D.svg", "9S.svg", "9C.svg", "10H.svg", "10D.svg", "10S.svg", "10C.svg",
+                "JH.svg", "JD.svg", "JS.svg", "JC.svg", "QH.svg", "QD.svg", "QS.svg", "QC.svg", 
+                "KH.svg", "KD.svg", "KS.svg", "KC.svg"]
                      
 listeToTable(cartes,12)
                      
