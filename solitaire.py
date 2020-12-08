@@ -43,7 +43,7 @@ def idCartes(i):                # retourne id et nom de carte pour init()
                 "KH.svg", "KD.svg", "KS.svg", "KC.svg"]
      return "case" + i , cartes[i]
 
-                         #fonctions de demo 11 
+                         #fonctions de demo 11 -- a revoir
 def table(contenu): return '<table>' + contenu + '</table>'   #creer tableau         
 def tr(contenu): return '<tr>' + contenu + '</tr>'             # balise tr pour row de tab
 def td(contenu): return '<td>' + contenu + '</td>'             # balise pour 1 element de tab
