@@ -33,23 +33,26 @@
         - le joueur ne peux plus brasser (compteur = 0 ) ET il ne peux plus deplacer de cartes 
                 - afficher perdu 
  ''' 
-def idCartes(i):                # retourne id et nom de carte pour init()
-    cartes = [  "AH.svg", "AD.svg", "AS.svg", "AC.svg", "2H.svg", "2D.svg", "2S.svg", "2C.svg",
-                "3H.svg", "3D.svg", "3S.svg", "3C.svg", "4H.svg", "4D.svg", "4S.svg", "4C.svg",
-                "5H.svg", "5D.svg", "5S.svg", "5C.svg", "6H.svg", "6D.svg", "6S.svg", "6C.svg",
-                "7H.svg", "7D.svg", "7S.svg", "7C.svg", "8H.svg", "8D.svg", "8S.svg", "8C.svg",
-                "9H.svg", "9D.svg", "9S.svg", "9C.svg", "10H.svg", "10D.svg", "10S.svg", "10C.svg",
-                "JH.svg", "JD.svg", "JS.svg", "JC.svg", "QH.svg", "QD.svg", "QS.svg", "QC.svg", 
-                "KH.svg", "KD.svg", "KS.svg", "KC.svg"]
-     return "case" + i , cartes[i]
+# Vous devez remplacer le contenu de ce fichier par votre propre code
+# tel qu'indiqué dans la description du TP2.  Le code ici correspond
+# à l'exemple donné dans la description.
 
-                         #fonctions de demo 11 -- a revoir
-def table(contenu): return '<table>' + contenu + '</table>'   #creer tableau         
-def tr(contenu): return '<tr>' + contenu + '</tr>'             # balise tr pour row de tab
-def td(contenu): return '<td>' + contenu + '</td>'             # balise pour 1 element de tab
+main = document.querySelector('#main')
+
+cartes = [  "AH.svg", "AD.svg", "AS.svg", "AC.svg", "2H.svg", "2D.svg", "2S.svg", "2C.svg",
+"3H.svg", "3D.svg", "3S.svg", "3C.svg", "4H.svg", "4D.svg", "4S.svg", "4C.svg",
+"5H.svg", "5D.svg", "5S.svg", "5C.svg", "6H.svg", "6D.svg", "6S.svg", "6C.svg",
+"7H.svg", "7D.svg", "7S.svg", "7C.svg", "8H.svg", "8D.svg", "8S.svg", "8C.svg",
+"9H.svg", "9D.svg", "9S.svg", "9C.svg", "10H.svg", "10D.svg", "10S.svg", "10C.svg",
+"JH.svg", "JD.svg", "JS.svg", "JC.svg", "QH.svg", "QD.svg", "QS.svg", "QC.svg", 
+"KH.svg", "KD.svg", "KS.svg", "KC.svg"]
+
+def table(contenu): return '<table>' + contenu + '</table>'
+def tr(contenu): return '<tr>' + contenu + '</tr>'
+def td(contenu, i): return '<td id = "case' +str(i)+'"><img src="cards/' + contenu + '"></td>'
 
 def grouper(lst, taille):  # taille = taille maximale des groupes
-    groupes = []                
+    groupes = []
     accum = []
     for elem in lst:
         accum.append(elem)
@@ -60,44 +63,34 @@ def grouper(lst, taille):  # taille = taille maximale des groupes
         groupes.append(accum)
     return groupes
 
-def trJoin(lst): return tr(''.join(lst))               #chqnger tout ca pour que cq nous affiche bien ce auon veux
-def tableJoin(lst): return table(''.join(lst))          # ex inclure dans chaque balise td  "id = idCartes(i)[0]" (boucle)
-                                                        # et entre td et /td mettre <img src="cards/idCartes(i)[1]"> 
-                                                        # en utilisant fonction idCartes definie plus haut
+def trJoin(lst): return tr(''.join(lst))
+
+
+def tableJoin(lst): return table(''.join(lst))
+
+
+idx=[]
+for i in range(len(cartes)):
+    idx.append(i)
+    
+
 
 def listeToTable(lst, taille):
-    return tableJoin(list(map(trJoin, grouper(list(map(td, cartes), taille))))
+    return tableJoin(list(map(trJoin, grouper(list(map(td, lst ,idx)), taille))))
+#print(listeToTable(cartes, 13))
 
-    cartes = [  "AH.svg", "AD.svg", "AS.svg", "AC.svg", "2H.svg", "2D.svg", "2S.svg", "2C.svg",
-                "3H.svg", "3D.svg", "3S.svg", "3C.svg", "4H.svg", "4D.svg", "4S.svg", "4C.svg",
-                "5H.svg", "5D.svg", "5S.svg", "5C.svg", "6H.svg", "6D.svg", "6S.svg", "6C.svg",
-                "7H.svg", "7D.svg", "7S.svg", "7C.svg", "8H.svg", "8D.svg", "8S.svg", "8C.svg",
-                "9H.svg", "9D.svg", "9S.svg", "9C.svg", "10H.svg", "10D.svg", "10S.svg", "10C.svg",
-                "JH.svg", "JD.svg", "JS.svg", "JC.svg", "QH.svg", "QD.svg", "QS.svg", "QC.svg", 
-                "KH.svg", "KD.svg", "KS.svg", "KC.svg"]
-                     
-listeToTable(cartes,12)
+
+
                      
 def init():
     main = document.querySelector("#main")
     main.innerHTML = """
-                
+      <style>     
         #jeu table { float: none; }
         #jeu table td { border: 0; padding: 1px 2px; height: auto; }
         #jeu table td img { height: auto; }
-      </style>
-      <div id="jeu">
-        <table>
-          <tr>
-            <td id="case0"><img src="cards/2S.svg"></td>
-            <td id="case1"><img src="cards/QH.svg"></td>
-          </tr>
-          <tr>
-            <td id="case2"><img src="cards/JC.svg"></td>
-            <td id="case3"><img src="cards/10D.svg"></td>
-          </tr>
-        </table>
-      </div>"""
-
+      </style> """ + '<div id="jeu">' + listeToTable(cartes, 13) + '</div>'
+   
+'''
     case0 = document.querySelector("#case0")
     case0.setAttribute("style", "background-color: lime")
