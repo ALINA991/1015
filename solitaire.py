@@ -36,7 +36,8 @@
 # Vous devez remplacer le contenu de ce fichier par votre propre code
 # tel qu'indiqué dans la description du TP2.  Le code ici correspond
 # à l'exemple donné dans la description.
-
+import math
+import random
 main = document.querySelector('#main')
 
 cartes = [  "AH.svg", "AD.svg", "AS.svg", "AC.svg", "2H.svg", "2D.svg", "2S.svg", "2C.svg",
@@ -64,8 +65,6 @@ def grouper(lst, taille):  # taille = taille maximale des groupes
     return groupes
 
 def trJoin(lst): return tr(''.join(lst))
-
-
 def tableJoin(lst): return table(''.join(lst))
 
 
@@ -74,14 +73,22 @@ for i in range(len(cartes)):
     idx.append(i)
     
 
-
 def listeToTable(lst, taille):
     return tableJoin(list(map(trJoin, grouper(list(map(td, lst ,idx)), taille))))
 #print(listeToTable(cartes, 13))
 
+def brasser(liste):
+    for i in range(len(liste)):
+        idxAlea = math.floor(random.random()*52)
+        inter = liste[i]
+        liste[i] = liste[idxAlea]
+        liste[idxAlea] = inter
+    return liste
 
+test = brasser(cartes)
+#print(test)
 
-                     
+                    
 def init():
     main = document.querySelector("#main")
     main.innerHTML = """
@@ -89,8 +96,14 @@ def init():
         #jeu table { float: none; }
         #jeu table td { border: 0; padding: 1px 2px; height: auto; }
         #jeu table td img { height: auto; }
-      </style> """ + '<div id="jeu">' + listeToTable(cartes, 13) + '</div>'
+      </style> """ + '<div id="jeu">' + listeToTable(test, 13) + '</div>' 
+      
    
+
+    #case0 = document.querySelector("#case0")
+    #case0.setAttribute("style", "background-color: lime")
+    
 '''
     case0 = document.querySelector("#case0")
     case0.setAttribute("style", "background-color: lime")
+'''
