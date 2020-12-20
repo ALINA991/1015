@@ -36,9 +36,14 @@
 # Vous devez remplacer le contenu de ce fichier par votre propre code
 # tel qu'indiqué dans la description du TP2.  Le code ici correspond
 # à l'exemple donné dans la description.
+
+""" 
+Version actuelle : afficher cartes & supprimer as
+"""
+
 import math
 import random
-main = document.querySelector('#main')
+
 
 cartes = [  "AH.svg", "AD.svg", "AS.svg", "AC.svg", "2H.svg", "2D.svg", "2S.svg", "2C.svg",
 "3H.svg", "3D.svg", "3S.svg", "3C.svg", "4H.svg", "4D.svg", "4S.svg", "4C.svg",
@@ -50,7 +55,11 @@ cartes = [  "AH.svg", "AD.svg", "AS.svg", "AC.svg", "2H.svg", "2D.svg", "2S.svg"
 
 def table(contenu): return '<table>' + contenu + '</table>'
 def tr(contenu): return '<tr>' + contenu + '</tr>'
-def td(contenu, i): return '<td id = "case' +str(i)+'"><img src="cards/' + contenu + '"></td>'
+def td(contenu, i): 
+    if i == 0 or i == 1 or i == 2 or i == 3:
+        return '<td id = "case' +str(i)+'"></td>'
+    else:
+        return '<td id = "case' +str(i)+'"><img src="cards/' + contenu + '"></td>'
 
 def grouper(lst, taille):  # taille = taille maximale des groupes
     groupes = []
@@ -73,37 +82,34 @@ for i in range(len(cartes)):
     idx.append(i)
     
 
-def listeToTable(lst, taille):
-    return tableJoin(list(map(trJoin, grouper(list(map(td, lst ,idx)), taille))))
-#print(listeToTable(cartes, 13))
-
-def brasser(liste):
+def brasser(liste, listIdx):
     for i in range(len(liste)):
-        idxAlea = math.floor(random.random()*52)
-        inter = liste[i]
+        idxAlea = int(math.floor(random.random()*52))
+        inter = liste[i]        #brasser cartes
         liste[i] = liste[idxAlea]
         liste[idxAlea] = inter
-    return liste
 
-test = brasser(cartes)
+        listIdx[i] = listIdx[idxAlea]  #brasser idx
+        listIdx[idxAlea] = i
+    return liste, listIdx
+
+test, listIdx = brasser(cartes, idx)    #liste de cartes brasse et idx corrspond
 #print(test)
+
+def listeToTable(lst, taille):
+    return tableJoin(list(map(trJoin, grouper(list(map(td, lst ,listIdx)), taille))))
+#print(listeToTable(cartes, 13))
 
                     
 def init():
     main = document.querySelector("#main")
+
     main.innerHTML = """
       <style>     
         #jeu table { float: none; }
         #jeu table td { border: 0; padding: 1px 2px; height: auto; }
         #jeu table td img { height: auto; }
-      </style> """ + '<div id="jeu">' + listeToTable(test, 13) + '</div>' 
-      
-   
+      </style>  
+      <div id="jeu"> """+ listeToTable(test, 13) + '</div>' 
 
-    #case0 = document.querySelector("#case0")
-    #case0.setAttribute("style", "background-color: lime")
-    
-'''
-    case0 = document.querySelector("#case0")
-    case0.setAttribute("style", "background-color: lime")
-'''
+   
