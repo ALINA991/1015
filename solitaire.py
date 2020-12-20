@@ -113,6 +113,7 @@ def init():
         #jeu table td img { height: auto; }
       </style>  
       <div id="jeu"> """+ listeToTable(test, 13) + """
+      <div>Vous pouvez encore</div> <button onclick="brasserCartes()">brasser les cartes</button><div>fois.</div>
       <button onclick="init()">Nouvelle partie</button>
       """
 
