@@ -5,10 +5,10 @@
 ''' A faire : 
 - remplir init() avec case 4 à 52 : 
         - info utile : si on a les cartes x et y, elles ont la mˆeme couleur si x%4 = y%4, et elles ont la mˆeme valeur si x//4 = y//4.
-        - trouver nom de cartes dans dossier 'cards'
-        - faire avec BOUCLES (voir descitption du tp ) 
-        - voir demo ou on a créer un tableau en prog web 
-        - faire en sorte de les mélanger aléatirement au chargement (random()? ) 
+        - trouver nom de cartes dans dossier 'cards' DONE
+        - faire avec BOUCLES (voir descitption du tp ) DONE
+        - voir demo ou on a créer un tableau en prog web DONE
+        - faire en sorte de les mélanger aléatirement au chargement (random()? ) DONE
         
 - lister document.querySelector("#caseN") avec chaque numero de carte -> permet d'Acceder a la carte 
 
