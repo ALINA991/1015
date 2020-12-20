@@ -38,7 +38,9 @@
 # à l'exemple donné dans la description.
 
 """ 
-Version actuelle : afficher cartes & supprimer as
+Version actuelle : afficher cartes 
+                   supprimer as
+                   bouton nouvelle partie 
 """
 
 import math
@@ -110,6 +112,8 @@ def init():
         #jeu table td { border: 0; padding: 1px 2px; height: auto; }
         #jeu table td img { height: auto; }
       </style>  
-      <div id="jeu"> """+ listeToTable(test, 13) + '</div>' 
+      <div id="jeu"> """+ listeToTable(test, 13) + """
+      <button onclick="init()">Nouvelle partie</button>
+      """
 
    
