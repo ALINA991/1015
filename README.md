@@ -1,0 +1,3 @@
+# 1015
+cours IFT 1015
+https://udemontreal-my.sharepoint.com/personal/francois_major_umontreal_ca/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Ffrancois%5Fmajor%5Fumontreal%5Fca%2FDocuments%2FIFT1025%2F2%2E%20Classes%20et%20Objets%2FDevoir&originalPath=aHR0cHM6Ly91ZGVtb250cmVhbC1teS5zaGFyZXBvaW50LmNvbS86ZjovZy9wZXJzb25hbC9mcmFuY29pc19tYWpvcl91bW9udHJlYWxfY2EvRWhBTnQzYkZya3RCaDNLRWE2SGtjR2dCSzY4WVhKRktVWmZXZnJ5eDlQLUt5QT9ydGltZT1VNzI3R2h2UjJFZw
